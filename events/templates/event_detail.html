@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Detail{% endblock title %}
+
+{% block content %}
+
+<br>
+<div class="card">
+  <h5 class="card-header">Event Details</h5>
+  <div class="card-body">
+    <h5 class="card-title">{{event.title}}</h5>
+    <p class="card-text">{{event.description}}</p>
+    <p class="card-text">Location: {{event.location}}</p>
+    <p class="card-text">Date: {{event.datetime}}</p>
+    <p class="card-text">Available Seats: {{event.seats}}</p>
+    <p class="card-text">By: {{event.added_by}}</p>
+    {% if event.seats == 0 %}
+    <button type="submit" class="btn btn-primary btn-xl rounded-pill mt-5" name="button" disabled>full</button>
+    {% else %}
+    <a href= "{% url 'event-book' event.id %}" ><button type="submit" class="btn btn-primary btn-xl rounded-pill mt-5" name="button">Book</button></a>
+    {% endif %}
+  <h3>{{text}}</h3>
+
+    {% if request.user == event.added_by %}
+    <a href="{% url 'event-update' event.id %}" class="btn btn-primary btn-xl rounded-pill mt-5">Update</a>
+    {% endif %}
+  </div>
+
+{% if request.user == event.added_by %}
+<h1>People in this event</h1>
+            {% for someone in bookers %}
+
+
+            <div class="col-md-12">
+                <div class="card my-card">
+                  <div class="card-body">
+                    <h3 class="card-title">{{someone.booker.first_name}} {{someone.booker.last_name}} Have {{ someone.tickets }} Tickets !</h3>
+                  </div>
+                </div>
+            </div>
+
+            {% endfor %}
+                {% endif %}
+<br><br><br><br><br><br><br><br>
+
+{% endblock content %}

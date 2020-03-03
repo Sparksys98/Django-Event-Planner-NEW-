@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header class="masthead text-center text-white">
+  <div class="masthead-content">
+    <div class="container">
+      <h1 class="masthead-heading mb-0">All the events,</h1>
+      <h2 class="masthead-subheading mb-0">You could ever want...</h2>
+      {% if request.user.is_anonymous %}
+        <a href="{% url 'signup' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up to find events!</a>
+      {% else %}
+        <a href="{% url 'event-list' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Find events!</a>
+      {% endif %}
+      {% if not request.user.is_anonymous %}
+      <a href="{% url 'create-event' %}" class="btn btn-primary btn-xl rounded-pill mt-1">Create events!</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="bg-circle-1 bg-circle"></div>
+  <div class="bg-circle-2 bg-circle"></div>
+  <div class="bg-circle-3 bg-circle"></div>
+  <div class="bg-circle-4 bg-circle"></div>
+</header>
+<body>
+<div class="row">
+          <div class="card-body">
+            {% for result in search_result %}
+          <a> {{result.title}} </a>
+          {% endfor %}
+          <div class="container" id="content">
+          <h1>Upcoming Events</h1>
+
+                        <form class="form-inline my-2 my-lg-0" action="{% url 'home' %}">
+                      <input class="form-control mr-sm-2 bg-dark " size="25" type="search" placeholder="Search..." aria-label="Search" name="search" >
+                      <button class="btn btn-outline-success my-2 my-sm-0 bg-dark" type="submit">Search</button>
+                      </form>
+</div>
+<br>
+            {% for event in events %}
+            <div class="jumbotron">
+            <ul class="list-group">
+            <h1 class="display-4"><li class="list-group-item bg-danger"></li>{{ event.title }}</h1>
+            <h1 class="display-5"><small>{{ event.description }}</small></h1>
+            <br>
+            {% if request.user.is_anonymous %}
+          <li class="list-group-item">  <a href="{% url 'login'  %}" class="btn btn-primary btn-xl rounded-pill mt-1">Detail</a></li>
+            </ul>
+            {% endif %}
+            {% if not request.user.is_anonymous %}
+            <a href="{% url 'event-detail' event.id %}" class="btn btn-primary btn-xl rounded-pill mt-1">Detail</a>
+            {% endif %}
+            <br><br>
+            </div>
+            {% endfor %}
+
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item text-center">
+            </li>
+          </ul>
+
+        </div>
+        </body>
+
+
+{% endblock %}

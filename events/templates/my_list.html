@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}List{% endblock title %}
+{% block content %}
+<div class="row">
+          <div class="card-body">
+            <br><br><br><br>
+            {% for event in events %}
+            {% if request.user == event.added_by %}
+            <h5 class="card-title">{{ event.title }}</h5>
+            <a href="{% url 'event-detail' event.id %}" class="btn btn-primary btn-xl rounded-pill mt-1">Detail</a>
+          {% endif %}
+            {% endfor %}
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item text-center">
+            </li>
+          </ul>
+
+        </div>
+    </div>
+</div>
+{% endblock content %}
